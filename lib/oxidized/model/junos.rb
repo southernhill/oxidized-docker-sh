@@ -47,6 +47,9 @@ class JunOS < Oxidized::Model
   cmd('show system license keys') { |cfg| comment cfg }
 
   cmd 'show configuration | display omit'
+  
+  # show set commands
+  cmd 'show configuration | display set'
 
   cfg :telnet do
     username(/^login:/)
