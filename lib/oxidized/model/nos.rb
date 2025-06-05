@@ -10,25 +10,25 @@ class NOS < Oxidized::Model
     cfg.cut_both
   end
 
-  cmd 'show version' do |cfg|
-    comment cfg.each_line.reject { |line| line.match /([Ss]ystem [Uu]p\s?[Tt]ime|[Uu]p\s?[Tt]ime is \d)/ }.join
-  end
+ # cmd 'show version' do |cfg|
+ #   comment cfg.each_line.reject { |line| line.match /([Ss]ystem [Uu]p\s?[Tt]ime|[Uu]p\s?[Tt]ime is \d)/ }.join
+ # end
 
-  cmd 'show inventory' do |cfg|
-    comment cfg
-  end
+ # cmd 'show inventory' do |cfg|
+ #   comment cfg
+ # end
 
-  cmd 'show license' do |cfg|
-    comment cfg
-  end
+ # cmd 'show license' do |cfg|
+ #   comment cfg
+ # end
 
-  cmd 'show chassis' do |cfg|
-    comment cfg.each_line.reject { |line| line.match(/Time/) || line.match(/Update/) }.join
-  end
+#  cmd 'show chassis' do |cfg|
+#    comment cfg.each_line.reject { |line| line.match(/Time/) || line.match(/Update/) }.join
+#  end
 
-  cfg 'show system' do |cfg|
-    comment(cfg.each_line.reject { |line| line.match(/Time/) || line.match(/speed/) })
-  end
+#  cfg 'show system' do |cfg|
+#    comment(cfg.each_line.reject { |line| line.match(/Time/) || line.match(/speed/) })
+#  end
 
   cmd 'show running-config | nomore'
 
