@@ -50,6 +50,7 @@ class FastIron < Oxidized::Model
   # save configuration
   cmd 'write memory' do |cfg|
     comment cfg
+  end
     
   cmd 'show running-config'
 
