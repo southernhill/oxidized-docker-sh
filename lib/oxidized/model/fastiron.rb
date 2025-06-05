@@ -47,6 +47,10 @@ class FastIron < Oxidized::Model
     comment cfg
   end
 
+  # save configuration
+  cmd 'write memory' do |cfg|
+    comment cfg
+    
   cmd 'show running-config'
 
   cfg :telnet do
