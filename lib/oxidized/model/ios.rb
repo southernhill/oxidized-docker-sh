@@ -121,6 +121,10 @@ class IOS < Oxidized::Model
   cmd 'show inventory' do |cfg|
     comment cfg
   end
+# save configuration
+  cmd 'wr mem' do |cfg|
+    comment cfg
+  end
 
   post do
     cmd_line = 'show running-config'
