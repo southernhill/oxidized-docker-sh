@@ -7,9 +7,9 @@ class Cumulus37 < Oxidized::Model
     "\n###### #{comment} ######\n"
   end
 
-  cmd :all do |cfg|
-    cfg.cut_both
-  end
+#  cmd :all do |cfg|
+#    cfg.cut_both
+#  end
 
   # show the persistent configuration
   pre do
