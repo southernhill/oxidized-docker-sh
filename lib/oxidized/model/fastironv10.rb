@@ -1,4 +1,4 @@
-class FastIron < Oxidized::Model
+class FastIronV10 < Oxidized::Model
   using Refinements
 
   prompt /^([\w.@()-]+[#>]\s?)$/
