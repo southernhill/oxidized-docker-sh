@@ -1,4 +1,6 @@
-class FastIronV10 < Oxidized::Model
+class FastIron < Oxidized::Model
+  using Refinements
+
   prompt /^([\w.@()-]+[#>]\s?)$/
   comment  '! '
 
@@ -10,12 +12,6 @@ class FastIronV10 < Oxidized::Model
     cfg.cut_both
   end
 
-  cmd 'enable' do |cfg|
-  end
-
-  cmd 'skip-page-display' do |cfg|
-  end
-
   cmd 'show version' do |cfg|
     comments = []
     comments << cfg.lines.first
@@ -23,7 +19,9 @@ class FastIronV10 < Oxidized::Model
     lines.each_with_index do |line, _i|
       comments << "Version: #{Regexp.last_match(1)}" if line =~ /^\s+SW: Version (.*)$/
 
-      comments << "Boot-Monitor Version: #{Regexp.last_match(1)}" if line =~ /^\s+Compressed Boot-Monitor Image size = \d+, Version:(.*)$/
+      if line =~ /^\s+Compressed Boot-Monitor Image size = \d+, Version:(.*)$/
+        comments << "Boot-Monitor Version: #{Regexp.last_match(1)}"
+      end
 
       comments << "Serial: #{Regexp.last_match(1)}" if line =~ /^\s+Serial  #:(.*)$/
     end
@@ -41,37 +39,33 @@ class FastIronV10 < Oxidized::Model
     comment cfg
   end
 
-  cmd 'write memory' do |cfg|
+  cmd 'show hardware-info' do |cfg|
     comment cfg
   end
 
-#  cmd 'show hardware-info' do |cfg|
-#    comment cfg
-#  end
-
-
-# This command excludes time which triggers git versions
-  cmd 'show stack | exclude T=' do |cfg|
+  cmd 'show stack' do |cfg|
     comment cfg
   end
 
   cmd 'show running-config'
 
   cfg :telnet do
-    username /^.* login: /
+    username /^(.* login|Username): /
     password /^Password:/
   end
 
   cfg :telnet, :ssh do
-    # preferred way to handle additional passwords
-#    post_login do
-#      if vars(:enable) == true
-#        cmd "enable"
-#      elsif vars(:enable)
-#        cmd "enable", /^[pP]assword:/
-#        cmd vars(:enable)
-#      end
-#    end
+    post_login do
+      enable_pass = vars(:enable)
+      if enable_pass && enable_pass.to_s.strip.downcase != 'nil'
+        cmd 'enable', /^Login:/
+        cmd vars(:username), /^Password:/
+        cmd enable_pass
+      else
+        cmd 'enable'
+      end
+      cmd 'skip-page-display'
+    end
     pre_logout 'exit'
     pre_logout 'exit'
   end
