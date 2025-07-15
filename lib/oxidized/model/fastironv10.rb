@@ -58,8 +58,8 @@ class FastIronV10 < Oxidized::Model
     post_login do
       enable_pass = vars(:enable)
       if enable_pass && enable_pass.to_s.strip.downcase != 'nil'
-        cmd 'enable', /^Login:/
-        cmd vars(:username), /^Password:/
+        cmd 'enable', /^\s*Login:/
+        cmd vars(:username), /^\s*Password:/
         cmd enable_pass
       else
         cmd 'enable'
