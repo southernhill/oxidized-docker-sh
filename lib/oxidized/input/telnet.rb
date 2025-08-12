@@ -4,6 +4,7 @@ module Oxidized
   class Telnet < Input
     RESCUE_FAIL = {}.freeze
     include Input::CLI
+
     attr_reader :telnet
 
     def connect(node) # rubocop:disable Naming/PredicateMethod
@@ -35,7 +36,7 @@ module Oxidized
     end
 
     def cmd(cmd_str, expect = @node.prompt)
-      Oxidized.logger.debug "Telnet: #{cmd_str} @#{@node.name}"
+      logger.debug "Telnet: #{cmd_str} @#{@node.name}"
       return send(cmd_str + "\r\n") unless expect
 
       # create a string to be passed to oxidized_expect and modified _there_
@@ -67,7 +68,7 @@ module Oxidized
       # This exception is intented and therefore not handled here
     ensure
       @log.close if Oxidized.config.input.debug?
-      (@telnet.close rescue true) unless @telnet.sock.closed?
+      (@telnet.close rescue true) unless @telnet.sock.closed? # rubocop:disable Style/RedundantParentheses
     end
   end
 end
@@ -78,7 +79,7 @@ module Net
     ## FIXME: we also need output (not sure I'm going to support this)
     attr_reader :output
 
-    def oxidized_expect(options) ## rubocop:disable Metrics/PerceivedComplexity
+    def oxidized_expect(options)
       model    = @options["Model"]
       @log     = @options["Log"]
 
